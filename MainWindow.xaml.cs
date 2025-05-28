@@ -1871,5 +1871,71 @@ namespace DataBase
 
 			return letter.ToString();
 		}
+
+		private async void DeleteRowButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (ContentGrid.SelectedItem == null)
+			{
+				MessageBox.Show("Please select a row to delete.", "Warning");
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(ConnStr))
+			{
+				MessageBox.Show("Please connect to a database first.", "Connection Error");
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(CurrentTableName))
+			{
+				MessageBox.Show("No table selected.", "Error");
+				return;
+			}
+
+			DataRowView row = ContentGrid.SelectedItem as DataRowView;
+			if (row == null)
+			{
+				MessageBox.Show("Invalid selection.", "Error");
+				return;
+			}
+
+			try
+			{
+				string primaryKey = GetPrimaryKeyColumn(CurrentTableName);
+				if (string.IsNullOrWhiteSpace(primaryKey))
+				{
+					MessageBox.Show("Could not determine the primary key column.", "Error");
+					return;
+				}
+
+				object primaryKeyValue = row[primaryKey];
+				if (primaryKeyValue == null || primaryKeyValue == DBNull.Value)
+				{
+					MessageBox.Show("Primary key value is missing or invalid.", "Error");
+					return;
+				}
+
+				var result = MessageBox.Show($"Are you sure you want to delete the selected row (ID = {primaryKeyValue})?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+				if (result != MessageBoxResult.Yes)
+					return;
+
+				using var conn = new SqlConnection(ConnStr);
+				await conn.OpenAsync();
+
+				string deleteQuery = $"DELETE FROM [{CurrentTableName}] WHERE [{primaryKey}] = @PrimaryKey";
+				using var cmd = new SqlCommand(deleteQuery, conn);
+				cmd.Parameters.AddWithValue("@PrimaryKey", primaryKeyValue);
+				await cmd.ExecuteNonQueryAsync();
+
+				MessageBox.Show("Row deleted successfully.", "Success");
+
+				await ExecuteScriptAsync($"SELECT * FROM [{CurrentTableName}]");
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Failed to delete row: {ex.Message}", "Error");
+			}
+		}
+
 	}
 }

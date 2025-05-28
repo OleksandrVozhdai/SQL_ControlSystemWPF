@@ -331,7 +331,7 @@
           Opacity="0.9" 
           x:Name="Query" 
           AcceptsReturn="True" 
-          Margin="130,56,232,0" 
+          Margin="130,56,237,0" 
           VerticalAlignment="Top" Height="169"/>
 
             <!-- DataGrid for Content -->
@@ -342,9 +342,9 @@
                IsReadOnly="False" 
                Opacity="0.9" 
                x:Name="ContentGrid" 
-               Margin="130,56,232,10" Grid.Column="1"/>
-            
-             
+               Margin="130,56,237,10" Grid.Column="1"/>
+
+
 
             <!-- TextBlock for DB Name -->
             <TextBlock Grid.Row="0" Grid.Column="1" 
@@ -377,7 +377,7 @@
            IsReadOnly="False" 
            Opacity="0.9" 
            x:Name="ResultGrid" 
-           Margin="130,225,232,10" RenderTransformOrigin="0.5,0.5">
+           Margin="130,225,237,10" RenderTransformOrigin="0.5,0.5">
                 <DataGrid.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -507,7 +507,7 @@
          Content="Delete" 
          HorizontalAlignment="Right" 
          Height="35" 
-         Margin="0,0,56,242" 
+         Margin="0,0,96,242" 
          VerticalAlignment="Bottom" 
          Width="120" 
          Background="#FFED7373" 
@@ -572,6 +572,19 @@
                 </TextBlock.RenderTransform><Run Language="pl-pl" Text="Documents"/></TextBlock>
             <Button Opacity="0.9" Background="#FF73ED73"  Style="{DynamicResource ButtonStyleMenu}" x:Name="Hire" Content="Hire" Click="HireButton_Click" RenderTransformOrigin="0.821,-0.19" Grid.Column="1" Margin="824,308,126,58"/>
             <Button Opacity="0.9" Background="#FFED7373"  Style="{DynamicResource ButtonStyleMenu}" x:Name="Hire_Copy" Content="Dismiss" Click="DismissButton_Click" RenderTransformOrigin="0.821,-0.19" Grid.Column="1" Margin="944,308,6,58"/>
+            <Button Grid.Row="0" Grid.Column="1" 
+                Opacity="0.9" 
+                Style="{DynamicResource ButtonStyleMenu}" 
+                x:Name="DeleteRowButton" 
+                Click="DeleteRowButton_Click" 
+                Content="Delete row" 
+                HorizontalAlignment="Right" 
+                Height="35" 
+                Margin="0,0,9,242" 
+                VerticalAlignment="Bottom" 
+                Width="82" 
+                Background="#FFED7373" 
+                FontSize="14" Cursor="Hand"/>
         </Grid>
 
         <Grid Name="MenuConnectGrid" d:IsHidden="True" Grid.RowSpan="2">
